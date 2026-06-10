@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stash — keep everything useful</title>
+<meta name="description" content="Your personal vault for links, notes and images. Paste anything — it figures out what it is. Local-first, free, no accounts.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗃️</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <span class="brand">🗃️ <b>Stash</b></span>
+    <input type="search" id="searchBox" placeholder="Search your stash…  ( / )">
+    <span class="bar-right">
+      <button class="ghost-btn" id="exportBtn" title="Backup everything to a file">⬇ Backup</button>
+      <label class="ghost-btn" title="Restore from a backup file">⬆ Restore<input type="file" id="importInput" accept=".json" hidden></label>
+      <button class="primary-btn" id="addBtn">＋ Add</button>
+    </span>
+  </div>
+  <div class="bar filters">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="link">🔗 Links</button>
+    <button class="chip" data-filter="text">📝 Notes</button>
+    <button class="chip" data-filter="image">🖼️ Images</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+</header>
+
+<main>
+  <div class="paste-hint" id="pasteHint">
+    <div class="big">📋</div>
+    <h2>Paste anything. I'll figure out what it is.</h2>
+    <p>Hit <kbd>⌘V</kbd> anywhere — a URL becomes a link card, a screenshot becomes an image,
+    anything else becomes a note. Or use the <b>＋ Add</b> button.</p>
+    <p class="sub">Everything is stored in this browser (IndexedDB) — free, private, no account.
+    Use <b>⬇ Backup</b> for a safety copy.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- add / edit modal -->
+<div class="overlay" id="addOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Add to stash</h3>
+    <div class="type-row" id="typeRow">
+      <button data-type="link" class="sel">🔗 Link</button>
+      <button data-type="text">📝 Note</button>
+      <button data-type="image">🖼️ Image</button>
+    </div>
+    <label id="contentLabel">URL
+      <textarea id="itemContent" rows="3" placeholder="https://…"></textarea>
+    </label>
+    <label id="imageLabel" style="display:none">Image
+      <input type="file" id="itemImage" accept="image/*">
+      <span id="imgPreview"></span>
+    </label>
+    <label>Title <span class="opt">(optional)</span>
+      <input type="text" id="itemTitle" maxlength="80" placeholder="What is this?">
+    </label>
+    <label>Tags <span class="opt">(comma separated, optional)</span>
+      <input type="text" id="itemTags" maxlength="80" placeholder="dev, design, later">
+    </label>
+    <div class="modal-btns">
+      <button class="ghost-btn" onclick="closeModal()">Cancel</button>
+      <button class="primary-btn" id="saveBtn">Stash it</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
